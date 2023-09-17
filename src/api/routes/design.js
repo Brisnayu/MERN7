@@ -1,11 +1,19 @@
 const express = require("express");
-const Design = require("../model/design");
+
+const {
+  getAllDesigns,
+  getDesignById,
+  createNewDesign,
+  updateDesign,
+  deleteDesign,
+} = require("../controller/design");
 
 const designsRouters = express.Router();
 
-designsRouters.get("/", async (req, res) => {
-  const designs = await Design.findById();
-  res.status(200).json({ data: designs });
-});
+designsRouters.get("/", getAllDesigns);
+designsRouters.get("/:id", getDesignById);
+designsRouters.post("/", createNewDesign);
+designsRouters.put("/:id", updateDesign);
+designsRouters.delete("/:id", deleteDesign);
 
 module.exports = designsRouters;
