@@ -1,5 +1,5 @@
 const express = require("express");
-
+const { isAuth } = require("../../middleware/auth");
 const {
   getAllDesigns,
   getDesignById,
@@ -12,8 +12,8 @@ const designsRouters = express.Router();
 
 designsRouters.get("/", getAllDesigns);
 designsRouters.get("/:id", getDesignById);
-designsRouters.post("/", createNewDesign);
-designsRouters.put("/:id", updateDesign);
-designsRouters.delete("/:id", deleteDesign);
+designsRouters.post("/", [isAuth], createNewDesign);
+designsRouters.put("/:id", [isAuth], updateDesign);
+designsRouters.delete("/:id", [isAuth], deleteDesign);
 
 module.exports = designsRouters;

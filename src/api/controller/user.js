@@ -27,7 +27,8 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ name: req.body.name });
 
     if (!user) {
-      return next(setError(400, "This user is not registered ❌"));
+      console.log("Usuario no registrado ❌");
+      return next(setError(400, "Something has gone wrong ❌"));
     }
 
     if (bcrypt.compareSync(req.body.password, user.password)) {
