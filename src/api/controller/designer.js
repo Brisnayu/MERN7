@@ -32,6 +32,7 @@ const createNewDesigner = async (req, res, next) => {
     const designerBBDD = await newDesigner.save();
     return res.status(201).json({ data: designerBBDD });
   } catch (error) {
+    deleteFile(req.file.path);
     return next(setError(400, `Can't create new designer 🥹 ${error.message}`));
   }
 };

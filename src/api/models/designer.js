@@ -5,7 +5,7 @@ const designerSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     surname: { type: String, required: true, trim: true },
     nationality: { type: String, required: true, trim: true },
-    image: { type: String, required: false, trim: true },
+    image: { type: String, required: false },
     design: [{ type: mongoose.Types.ObjectId, ref: "Design" }],
   },
   {

@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 require("dotenv").config();
 const express = require("express");
-const { connectDB } = require("./config/db");
 const rateLimit = require("express-rate-limit");
 const mainRouter = require("./api/routes");
-const { setError } = require("./config/error");
 const cloudinary = require("cloudinary").v2;
+const { setError } = require("./config/error");
+const { connectDB } = require("./config/db");
 
 const app = express();
 
