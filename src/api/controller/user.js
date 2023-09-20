@@ -9,7 +9,7 @@ const getAllUsers = async (req, res, next) => {
     const allUsers = await User.find().select({ password: false });
     return res.status(200).json({ data: allUsers });
   } catch (error) {
-    return next(setError(400, "Can't see users 🥲"));
+    return next(setError(401, "Can't see users 🥲"));
   }
 };
 
@@ -59,7 +59,7 @@ const register = async (req, res, next) => {
   } catch (error) {
     console.log("Error", error.message);
     deleteFile(req.file.path);
-    return next(setError(400, "Error registering ❌"));
+    return next(setError(401, "Error registering ❌"));
   }
 };
 
@@ -84,7 +84,7 @@ const login = async (req, res, next) => {
     }
   } catch (error) {
     console.log("Error", error);
-    return next(setError(400, "Failed to login ❌"));
+    return next(setError(401, "Failed to login ❌"));
   }
 };
 
@@ -99,7 +99,7 @@ const deleteUser = async (req, res, next) => {
 
     return res.status(200).json({ data: `Removed ${user.name}` });
   } catch (error) {
-    return next(setError(400, "Error deleting user ❌"));
+    return next(setError(401, "Error deleting user ❌"));
   }
 };
 
@@ -124,7 +124,7 @@ const createAvatar = async (req, res, next) => {
     return res.status(200).json({ data: createNewAvatar });
   } catch (error) {
     deleteFile(req.file.path);
-    return next(setError(400, "Failed to create ❌"));
+    return next(setError(401, "Failed to create ❌"));
   }
 };
 

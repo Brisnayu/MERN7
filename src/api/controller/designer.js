@@ -7,7 +7,7 @@ const getAllDesigners = async (req, res, next) => {
     const allDesigners = await Designer.find();
     return res.status(200).json({ data: allDesigners });
   } catch (error) {
-    return next(setError(400, "Can't find designer"));
+    return next(setError(401, "Can't find designer"));
   }
 };
 
@@ -23,7 +23,7 @@ const getDesignerById = async (req, res, next) => {
     const designerId = await Designer.findById(id).populate("design");
     return res.status(200).json({ data: designerId });
   } catch (error) {
-    return next(setError(400, "Can't find designer by ID 🥹"));
+    return next(setError(401, "Can't find designer by ID 🥹"));
   }
 };
 
@@ -39,7 +39,7 @@ const createNewDesigner = async (req, res, next) => {
     return res.status(201).json({ data: designerBBDD });
   } catch (error) {
     deleteFile(req.file.path);
-    return next(setError(400, `Can't create new designer 🥹 ${error.message}`));
+    return next(setError(401, `Can't create new designer 🥹 ${error.message}`));
   }
 };
 
@@ -82,7 +82,7 @@ const updateDesigner = async (req, res, next) => {
     });
     return res.status(200).json({ data: updateAllDesigner });
   } catch (error) {
-    return next(setError(400, "Can't update designer 🥹"));
+    return next(setError(401, "Can't update designer 🥹"));
   }
 };
 
@@ -99,7 +99,7 @@ const deleteDesigner = async (req, res, next) => {
       .status(200)
       .json({ data: `Removed: ${designer.name} ${designer.surname}` });
   } catch (error) {
-    return next(setError(400, "Can't delete designer 🥹"));
+    return next(setError(401, "Can't delete designer 🥹"));
   }
 };
 

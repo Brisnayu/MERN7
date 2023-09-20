@@ -7,7 +7,7 @@ const getAllDesigns = async (req, res, next) => {
     const allDesigns = await Design.find();
     return res.status(200).json({ data: allDesigns });
   } catch (error) {
-    return next(setError(400, "Can't find designs 🥹"));
+    return next(setError(401, "Can't find designs 🥹"));
   }
 };
 
@@ -23,7 +23,7 @@ const getDesignById = async (req, res, next) => {
     const designId = await Design.findById(id).populate("designer");
     return res.status(200).json({ data: designId });
   } catch (error) {
-    return next(setError(400, "Can't find design by ID 🥹"));
+    return next(setError(401, "Can't find design by ID 🥹"));
   }
 };
 
@@ -40,7 +40,7 @@ const createNewDesign = async (req, res, next) => {
   } catch (error) {
     console.error("Error", error);
     req.files.map((file) => deleteFile(file.path));
-    return next(setError(400, `Can't create new design 🥹 ${error.message}`));
+    return next(setError(401, `Can't create new design 🥹 ${error.message}`));
   }
 };
 
@@ -81,7 +81,7 @@ const updateDesign = async (req, res, next) => {
     return res.status(200).json({ data: updateAllDesign });
   } catch (error) {
     req.files.map((file) => deleteFile(file.path));
-    return next(setError(400, "Can't update design 🥹"));
+    return next(setError(401, "Can't update design 🥹"));
   }
 };
 
@@ -97,7 +97,7 @@ const deleteDesign = async (req, res, next) => {
     const design = await Design.findByIdAndDelete(id);
     return res.status(200).json({ data: `Removed: ${design.name}` });
   } catch (error) {
-    return next(setError(400, "Can't delete design 🥹"));
+    return next(setError(401, "Can't delete design 🥹"));
   }
 };
 
@@ -126,7 +126,7 @@ const updateImagesDesign = async (req, res, next) => {
     return res.status(201).json({ data: updatedDesign });
   } catch (error) {
     req.files.map((file) => deleteFile(file.path));
-    return next(setError(400, "Loading of new images has failed ❌"));
+    return next(setError(401, "Loading of new images has failed ❌"));
   }
 };
 
