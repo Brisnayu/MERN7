@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const mainRouter = require("./api/routes");
 const cloudinary = require("cloudinary").v2;
@@ -13,6 +14,8 @@ app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: false }));
 
 connectDB();
+
+app.use(cors());
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,

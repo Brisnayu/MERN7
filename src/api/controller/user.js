@@ -18,6 +18,8 @@ const register = async (req, res, next) => {
     const newUser = new User(req.body);
     const { email, password } = req.body;
 
+    console.log(password);
+
     const emailDuplicate = await User.findOne({ email });
 
     if (emailDuplicate) {
@@ -28,19 +30,26 @@ const register = async (req, res, next) => {
     const lowerCase = /[a-z]/.test(password);
 
     if (password.length < 6) {
+      deleteFile(req.file.path);
       return next(setError(400, "The password must be at least 6 characters 😥"));
     }
 
     if (upperCase === false) {
+      deleteFile(req.file.path);
       return next(
         setError(400, "The password must have at least one uppercase letter 🥲"),
       );
     }
 
     if (lowerCase === false) {
+      deleteFile(req.file.path);
       return next(
         setError(400, "The password must have at least one lowercase letter 🥹"),
       );
+    }
+
+    if (req.file) {
+      newUser.avatar = req.file.path;
     }
 
     const user = await newUser.save();
@@ -49,15 +58,16 @@ const register = async (req, res, next) => {
     return res.status(201).json({ data: user });
   } catch (error) {
     console.log("Error", error.message);
+    deleteFile(req.file.path);
     return next(setError(400, "Error registering ❌"));
   }
 };
 
 const login = async (req, res, next) => {
   try {
-    const { user, password } = req.body;
+    const { email, password } = req.body;
 
-    const userName = await User.findOne({ user });
+    const userName = await User.findOne({ email });
 
     if (!userName) {
       console.log("Usuario no registrado ❌");
@@ -82,6 +92,11 @@ const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findByIdAndDelete(id);
+
+    if (user.avatar) {
+      deleteFile(user.avatar);
+    }
+
     return res.status(200).json({ data: `Removed ${user.name}` });
   } catch (error) {
     return next(setError(400, "Error deleting user ❌"));
@@ -97,15 +112,19 @@ const createAvatar = async (req, res, next) => {
 
     if (req.file) {
       updateAvatar.avatar = req.file.path;
+
       if (oldAvatar.avatar) {
         deleteFile(oldAvatar.avatar);
       }
     }
 
     const createNewAvatar = await User.findByIdAndUpdate(id, updateAvatar, { new: true });
+    createNewAvatar.password = null;
+
     return res.status(200).json({ data: createNewAvatar });
   } catch (error) {
-    return next(setError(400, "Failed to login ❌"));
+    deleteFile(req.file.path);
+    return next(setError(400, "Failed to create ❌"));
   }
 };
 

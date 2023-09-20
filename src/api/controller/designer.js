@@ -14,6 +14,12 @@ const getAllDesigners = async (req, res, next) => {
 const getDesignerById = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const designer = await Designer.findById(id);
+
+    if (!designer) {
+      return next(setError(400, "Designer not found ❌"));
+    }
+
     const designerId = await Designer.findById(id).populate("design");
     return res.status(200).json({ data: designerId });
   } catch (error) {
@@ -42,6 +48,10 @@ const updateDesigner = async (req, res, next) => {
     const { id } = req.params;
 
     const oldDesigner = await Designer.findById(id);
+
+    if (!oldDesigner) {
+      return next(setError(400, "Designer not found ❌"));
+    }
 
     const updateDesigner = req.body;
     const updateDesign = req.body.design;
@@ -80,6 +90,11 @@ const deleteDesigner = async (req, res, next) => {
   try {
     const { id } = req.params;
     const designer = await Designer.findByIdAndDelete(id);
+
+    if (designer.image) {
+      deleteFile(designer.image);
+    }
+
     return res
       .status(200)
       .json({ data: `Removed: ${designer.name} ${designer.surname}` });
