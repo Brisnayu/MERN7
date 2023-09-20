@@ -3,10 +3,10 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
-const mainRouter = require("./api/routes");
+const mainRouter = require("./src/api/routes");
 const cloudinary = require("cloudinary").v2;
-const { setError } = require("./config/error");
-const { connectDB } = require("./config/db");
+const { setError } = require("./src/config/error");
+const { connectDB } = require("./src/config/db");
 
 const app = express();
 
