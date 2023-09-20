@@ -20,7 +20,10 @@ const getDesignerById = async (req, res, next) => {
       return next(setError(400, "Designer not found ❌"));
     }
 
-    const designerId = await Designer.findById(id).populate("design");
+    const designerId = await Designer.findById(id).populate({
+      path: "design",
+      select: "_id name images year category",
+    });
     return res.status(200).json({ data: designerId });
   } catch (error) {
     return next(setError(401, "Can't find designer by ID 🥹"));
@@ -56,17 +59,20 @@ const updateDesigner = async (req, res, next) => {
     const updateDesigner = req.body;
     const updateDesign = req.body.design;
 
-    // VERIFICAR QUE FUNCIONA SI SUBO DISEÑOS Y ADEMÁS ACTUALIZO OTRA COSA!
-
     if (updateDesign) {
+      const designsToAdd = Array.isArray(updateDesign) ? updateDesign : [updateDesign];
+
       const update = {
         $addToSet: {
-          design: { $each: updateDesign },
+          design: { $each: designsToAdd },
         },
       };
 
-      const updateDesigns = await Designer.findByIdAndUpdate(id, update, { new: true });
-      return res.status(200).json({ data: updateDesigns });
+      const updatedDesigner = await Designer.findByIdAndUpdate(id, update, {
+        new: true,
+      });
+
+      return res.status(200).json({ data: updatedDesigner });
     }
 
     if (req.file) {

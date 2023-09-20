@@ -20,7 +20,10 @@ const getDesignById = async (req, res, next) => {
       return next(setError(400, "Design not found ❌"));
     }
 
-    const designId = await Design.findById(id).populate("designer");
+    const designId = await Design.findById(id).populate({
+      path: "designer",
+      select: "_id name surname nationality image",
+    });
     return res.status(200).json({ data: designId });
   } catch (error) {
     return next(setError(401, "Can't find design by ID 🥹"));

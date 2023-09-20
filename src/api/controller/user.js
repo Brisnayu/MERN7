@@ -18,8 +18,6 @@ const register = async (req, res, next) => {
     const newUser = new User(req.body);
     const { email, password } = req.body;
 
-    console.log(password);
-
     const emailDuplicate = await User.findOne({ email });
 
     if (emailDuplicate) {
