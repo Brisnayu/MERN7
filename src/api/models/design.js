@@ -5,6 +5,7 @@ const designSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     images: [{ type: String }],
     year: { type: Number, required: true, trim: true },
+    summary: { type: String, required: false, trim: true },
     designer: { type: mongoose.Types.ObjectId, ref: "Designer" },
     category: { type: String, required: true, enum: ["Silla", "Lámpara", "Mesa"] },
   },

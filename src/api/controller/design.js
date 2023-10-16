@@ -22,7 +22,7 @@ const getDesignById = async (req, res, next) => {
 
     const designId = await Design.findById(id).populate({
       path: "designer",
-      select: "_id name surname nationality image",
+      select: "_id name surname nationality image summary",
     });
     return res.status(200).json({ data: designId });
   } catch (error) {
@@ -50,7 +50,7 @@ const createNewDesign = async (req, res, next) => {
 const updateDesign = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, year, designer, category } = req.body;
+    const { name, year, designer, category, summary } = req.body;
     const updateDesign = {};
 
     const updateDesignBBDD = await Design.findById(id);
@@ -76,6 +76,9 @@ const updateDesign = async (req, res, next) => {
     }
     if (category) {
       updateDesign.category = category;
+    }
+    if (summary) {
+      updateDesign.summary = summary;
     }
 
     const updateAllDesign = await Design.findByIdAndUpdate(id, updateDesign, {
