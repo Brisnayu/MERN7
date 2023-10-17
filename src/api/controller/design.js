@@ -50,7 +50,7 @@ const createNewDesign = async (req, res, next) => {
 const updateDesign = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, year, designer, category, summary } = req.body;
+    const { name, year, designer, category, summary, curiosities } = req.body;
     const updateDesign = {};
 
     const updateDesignBBDD = await Design.findById(id);
@@ -79,6 +79,9 @@ const updateDesign = async (req, res, next) => {
     }
     if (summary) {
       updateDesign.summary = summary;
+    }
+    if (curiosities) {
+      updateDesign.curiosities = curiosities;
     }
 
     const updateAllDesign = await Design.findByIdAndUpdate(id, updateDesign, {
