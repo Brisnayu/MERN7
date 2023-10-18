@@ -14,7 +14,7 @@ const designsRouters = express.Router();
 
 designsRouters.get("/", getAllDesigns);
 designsRouters.get("/:id", getDesignById);
-designsRouters.post("/", [isAuth], upload.array("images", 4), createNewDesign);
+designsRouters.post("/", upload.array("images", 4), createNewDesign);
 designsRouters.put("/:id", [isAuth], upload.array("images", 4), updateDesign);
 designsRouters.put(
   "/images/:id",
