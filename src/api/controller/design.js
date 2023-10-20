@@ -38,6 +38,9 @@ const createNewDesign = async (req, res, next) => {
       newDesign.images = req.files.map((file) => file.path);
     }
 
+    const curiosities = JSON.parse(req.body.curiosities);
+    newDesign.curiosities = curiosities;
+
     const designBBDD = await newDesign.save();
     return res.status(201).json({ data: designBBDD });
   } catch (error) {
