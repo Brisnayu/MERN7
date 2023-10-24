@@ -13,7 +13,7 @@ const designersRouters = express.Router();
 
 designersRouters.get("/", getAllDesigners);
 designersRouters.get("/:id", getDesignerById);
-designersRouters.post("/", [isAuth], upload.single("image"), createNewDesigner);
+designersRouters.post("/", upload.single("image"), createNewDesigner);
 designersRouters.put("/:id", [isAuth], upload.single("image"), updateDesigner);
 designersRouters.delete("/:id", [isAuth], deleteDesigner);
 
